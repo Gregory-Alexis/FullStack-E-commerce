@@ -6,6 +6,7 @@ const router = express.Router();
 const productCtrl = require("../controllers/product");
 
 router.get("/", productCtrl.findAllProduct);
+router.post("/", productCtrl.createProduct);
 router.get("/:id", productCtrl.findOneProduct);
 
 module.exports = router;
