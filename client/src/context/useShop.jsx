@@ -1,9 +1,22 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useReducer } from "react";
+import { shopReducer } from "../reducer/shopReducer";
 
 export const ShopContext = createContext();
 
 export const ShopContextProvider = ({ children }) => {
-  return <ShopContext.Provider value={{}}>{children}</ShopContext.Provider>;
+  const [state, dispatch] = useReducer(shopReducer, {
+    data: [],
+    loading: true,
+    error: "",
+    isToggle: false,
+    width: window.innerWidth,
+  });
+  const { data, loading, error, isToggle } = state;
+  return (
+    <ShopContext.Provider value={{ data, loading, error, isToggle, dispatch }}>
+      {children}
+    </ShopContext.Provider>
+  );
 };
 
 export const useShop = () => {
