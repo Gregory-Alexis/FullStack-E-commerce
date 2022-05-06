@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv").config();
 const productRoutes = require("./routes/product");
+const userRoutes = require("./routes/product");
 const app = express();
 
 mongoose
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/cart", productRoutes);
+app.use("/auth", userRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
