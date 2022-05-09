@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <header ref={ref}>
-      <div className="bg-blue-700 text-white p-4 flex justify-between items-center relative z-20">
+      <div className="text-primary p-4 flex justify-between items-center relative z-30">
         <h1 className="text-xl">GregShop</h1>
         <button
           type="button"
