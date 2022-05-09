@@ -1,47 +1,48 @@
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv").config();
-const productRoutes = require("./routes/product");
-const userRoutes = require("./routes/product");
-const app = express();
+const http = require("http");
+const app = require("./app");
 
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
+const port = normalizePort(process.env.PORT || "8080");
+app.set("port", port);
+
+const errorHandler = (error) => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  const address = server.address();
+  const bind =
+    typeof address === "string" ? "pipe " + address : "port: " + port;
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges.");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use.");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
+
+const server = http.createServer(app);
+
+server.on("error", errorHandler);
+server.on("listening", () => {
+  const address = server.address();
+  const bind = typeof address === "string" ? "pipe " + address : "port " + port;
+  console.log("Listening on " + bind);
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use("/cart", productRoutes);
-app.use("/auth", userRoutes);
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/client/build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  });
-}
-
-const port = process.env.PORT || "8080";
-
-app.listen(port);
+server.listen(port);
