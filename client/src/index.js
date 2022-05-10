@@ -3,14 +3,25 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ShopContextProvider } from "./context/useShop";
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router";
+import Cart from "./Cart/Cart";
+import { Provider } from "react-redux";
+import { store } from "./redux/store/store";
+import SingleProduct from "./SingleProduct/SingleProduct";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ShopContextProvider>
-      <App />
-    </ShopContextProvider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          {/*<Route path="/cart" element={<Cart />} />*/}
+          <Route path="/product/:id" element={<SingleProduct />} />
+        </Routes>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
