@@ -1,7 +1,11 @@
-import { useShop } from "../context/useShop";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 
 const TranslateNavbarOnSmallScreen = () => {
-  const { isToggle } = useShop();
+  const isToggle = useSelector((state) => state.shopSlice.isToggle);
+  const quantity = useSelector((state) => state.cartSlice.quantity);
+
   return (
     <>
       {isToggle ? (
@@ -15,9 +19,18 @@ const TranslateNavbarOnSmallScreen = () => {
             <li className="mb-4 hover:bg-primary hover:text-white transition-all duration-300 ease-in-out flex justify-center py-2 rounded-lg w-72">
               Nos Produits
             </li>
-            <li className="mb-4 hover:bg-primary hover:text-white transition-all duration-300 ease-in-out flex justify-center py-2 rounded-lg w-72">
-              Mon Panier
-            </li>
+            <div className="relative">
+              <Link to={`/cart`}>
+                <li className="mb-4 hover:bg-primary hover:text-white transition-all duration-300 ease-in-out flex justify-center py-2 rounded-lg w-72">
+                  Mon Panier
+                </li>
+              </Link>
+              {quantity > 0 && (
+                <div className="bg-red-500 absolute w-4 h-4 rounded-full top-0 right-20 mr-2 mt-1 flex items-center justify-center text-white text-sm">
+                  {quantity}
+                </div>
+              )}
+            </div>
           </ul>
         </div>
       ) : (
