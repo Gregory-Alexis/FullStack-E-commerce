@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/cart", productRoutes);
+app.use("/shop", productRoutes);
 //app.use("/auth", userRoutes);
 
 module.exports = app;
