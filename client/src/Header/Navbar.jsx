@@ -1,16 +1,19 @@
 import { useRef, useEffect } from "react";
-import { useShop } from "../context/useShop";
+import { useDispatch, useSelector } from "react-redux";
 import DotMenu from "../images/vertical-dots.svg";
+import { setIsToggle } from "../redux/features/shopSlice";
 import TranslateNavbarOnSmallScreen from "./TranslateNavbarOnSmallScreen";
 
 const Navbar = () => {
-  const { isToggle, dispatch } = useShop();
+  const isToggle = useSelector((state) => state.shopSlice.isToggle);
+
+  const dispatch = useDispatch();
   const ref = useRef();
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       if (isToggle && ref.current && !ref.current.contains(e.target)) {
-        dispatch({ type: "IS_TOGGLE", payload: false });
+        dispatch(setIsToggle(false));
       }
     };
 
@@ -39,7 +42,7 @@ const Navbar = () => {
           className={`transition-all duration-300 ease-in-out ${
             isToggle ? "-rotate-90" : "rotate-0"
           }`}
-          onClick={() => dispatch({ type: "IS_TOGGLE", payload: !isToggle })}
+          onClick={() => dispatch(setIsToggle(!isToggle))}
         >
           <img src={DotMenu} alt="menu" />
         </button>
