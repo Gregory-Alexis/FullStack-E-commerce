@@ -4,24 +4,17 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     singleProduct: [],
-    product: [],
-    quantity: 0,
-    total: 0,
     loading: true,
     error: false,
   },
   reducers: {
     setSingleProduct: (state, action) => {
       return {
+        ...state,
         singleProduct: action.payload,
         loading: false,
         error: false,
       };
-    },
-    addToProduct: (state, action) => {
-      state.product.push(action.payload);
-      state.quantity += 1;
-      state.total += action.payload.price;
     },
     setLoading: (state, action) => {
       return {
