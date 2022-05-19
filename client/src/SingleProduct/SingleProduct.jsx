@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
+import { addToCart } from "../redux/features/cartSlice";
 import {
   setSingleProduct,
   setError,
@@ -26,8 +27,7 @@ const SingleProduct = () => {
   };
 
   useEffect(() => {
-    dispatch(setLoading(true));
-    const fetchData = async () => {
+    const getProduct = async () => {
       try {
         const result = await axios.get(
           `http://localhost:5000/shop/product/${id}`
@@ -39,7 +39,7 @@ const SingleProduct = () => {
         dispatch(setError(error.message));
       }
     };
-    fetchData();
+    getProduct();
   }, [dispatch, id]);
 
   return (
@@ -60,6 +60,13 @@ const SingleProduct = () => {
             type="button"
             aria-label="add to cart"
             className="bg-blue-500 py-1 px-2 rounded text-white mt-4"
+            onClick={() =>
+              dispatch(
+                addToCart({
+                  ...singleProduct,
+                })
+              )
+            }
           >
             Add To Cart
           </button>
