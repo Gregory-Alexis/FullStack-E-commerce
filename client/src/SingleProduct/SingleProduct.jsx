@@ -3,17 +3,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { addToCart } from "../redux/features/cartSlice";
-import {
-  setSingleProduct,
-  setError,
-  setLoading,
-} from "../redux/features/productSlice";
+import { setSingleProduct, setError } from "../redux/features/productSlice";
 
 const SingleProduct = () => {
   const [quantity, setQuantity] = useState(1);
   const singleProduct = useSelector(
     (state) => state.productSlice.singleProduct
   );
+  const cart = useSelector((state) => state.cartSlice);
+  console.log(cart);
   const dispatch = useDispatch();
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -24,6 +22,15 @@ const SingleProduct = () => {
 
   const decrementQuantity = () => {
     quantity > 1 && setQuantity(quantity - 1);
+  };
+
+  const addToCartHandler = () => {
+    dispatch(
+      addToCart({
+        ...singleProduct,
+        quantity,
+      })
+    );
   };
 
   useEffect(() => {
@@ -60,13 +67,7 @@ const SingleProduct = () => {
             type="button"
             aria-label="add to cart"
             className="bg-blue-500 py-1 px-2 rounded text-white mt-4"
-            onClick={() =>
-              dispatch(
-                addToCart({
-                  ...singleProduct,
-                })
-              )
-            }
+            onClick={addToCartHandler}
           >
             Add To Cart
           </button>
