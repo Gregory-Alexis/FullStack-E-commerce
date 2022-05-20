@@ -9,6 +9,7 @@ import Cart from "./Cart/Cart";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/store";
 import SingleProduct from "./SingleProduct/SingleProduct";
+import CartApp from "./Cart/CartApp";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +18,7 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path="/" element={<App />} />
-          {/*<Route path="/cart" element={<Cart />} />*/}
+          *<Route path="/cart" element={<CartApp />} />
           <Route path="/product/:id" element={<SingleProduct />} />
         </Routes>
       </Provider>
