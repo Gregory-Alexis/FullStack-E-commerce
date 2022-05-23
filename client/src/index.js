@@ -5,11 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
-import Cart from "./Cart/Cart";
 import { Provider } from "react-redux";
 import { store } from "./redux/store/store";
 import SingleProduct from "./SingleProduct/SingleProduct";
-import CartApp from "./Cart/CartApp";
+import Cart from "./Cart/Cart";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +17,7 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path="/" element={<App />} />
-          *<Route path="/cart" element={<CartApp />} />
+          *<Route path="/cart" element={<Cart />} />
           <Route path="/product/:id" element={<SingleProduct />} />
         </Routes>
       </Provider>
